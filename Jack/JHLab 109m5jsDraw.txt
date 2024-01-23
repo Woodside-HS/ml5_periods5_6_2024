@@ -1,0 +1,35 @@
+let Classifier;
+let canvas;
+
+function preload() {
+  Classifier = ml5.imageClassifier('DoodleNet');
+}
+
+function setup() {
+  canvas = createCanvas(400, 400);
+  background(255);
+  canvas.mouseReleased(classify);
+  strokeWeight(15);
+  stroke(0);
+}
+
+function draw() {
+  if (mouseIsPressed) {
+    line(pmouseX, pmouseY, mouseX, mouseY);
+  }
+}
+
+function classify() {
+  Classifier.classify(canvas, gotResult);
+}
+
+function gotResult(error, results) {
+  if (error) {
+    console.error(error);
+    return;
+  }
+  console.log(results);
+  let Label = results[0].label;
+  console.log("You drew " + Label);
+}
+
